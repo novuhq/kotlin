@@ -8,11 +8,15 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-class Novu {
+class Novu(
+    private val apiKey: String
+) {
 
-    private val eventsApi = RetrofitHelper.getInstance().create(EventsApi::class.java)
+    private val eventsApi = RetrofitHelper.getInstance(apiKey).create(EventsApi::class.java)
 
-    fun trigger(body: EventTriggerRequest) = runBlocking {
+    fun trigger(name: String, body: EventTriggerRequest) = runBlocking {
+
+        body.name = name
 
         logger.info { body }
         eventsApi.eventTrigger(body)

@@ -10,7 +10,6 @@ data class EventTriggerRequest(
     var to: Map<String, Any>? = mapOf("subscriberId" to "ciao"),
     var payload: Map<String, Any>? = mapOf(),
     var overrides: Map<String, Any>? = mapOf(),
-
     )
 
 data class EventTriggerResponse(

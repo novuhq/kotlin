@@ -1,16 +1,23 @@
 package co.novu.helpers
 
+import mu.KotlinLogging
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object RetrofitHelper {
+private val logger = KotlinLogging.logger {}
 
-    val baseUrl = "https://api.novu.co/v1/"
 
-    fun getInstance(apiKey: String): Retrofit {
 
+class RetrofitHelper(
+    private val baseUrl: String,
+    private val apiKey: String
+) {
+
+    fun getInstance(): Retrofit {
+
+        logger.info { "back url $baseUrl" }
         val httpClient = OkHttpClient.Builder()
 
         httpClient
@@ -29,4 +36,6 @@ object RetrofitHelper {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
+
+
 }

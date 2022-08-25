@@ -8,11 +8,17 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
+
+data class NovuConfig(var backendUrl: String = "https://api.novu.co/v1/")
+
 class Novu(
-    private val apiKey: String
+    apiKey: String,
+    config: NovuConfig = NovuConfig()
 ) {
 
-    private val eventsApi = RetrofitHelper.getInstance(apiKey).create(EventsApi::class.java)
+
+    private val eventsApi =
+        RetrofitHelper(apiKey = apiKey, baseUrl = config.backendUrl).getInstance().create(EventsApi::class.java)
 
     fun trigger(name: String, body: EventTriggerRequest) = runBlocking {
 

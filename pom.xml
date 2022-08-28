@@ -87,6 +87,13 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>io.kotest</groupId>
+            <artifactId>kotest-extensions-junitxml</artifactId>
+            <version>${kotest.version}</version>
+            <scope>test</scope>
+        </dependency>
+
 
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>

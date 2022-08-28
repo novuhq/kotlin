@@ -25,13 +25,13 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '11'
-          
+
       - name: Run tests
         run: ./mvnw test
 
       - name: Bundle the build report
         if: failure()
-        run: find . -type d -name 'reports' | zip -@ -r build-reports.zip
+        run: find . -type d -name 'surefire-reports' | zip -@ -r build-reports.zip
 
       - name: Upload the build report
         if: failure()

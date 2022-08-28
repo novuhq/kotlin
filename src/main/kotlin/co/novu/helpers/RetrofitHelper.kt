@@ -8,16 +8,15 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 private val logger = KotlinLogging.logger {}
 
-
-
 class RetrofitHelper(
     private val baseUrl: String,
-    private val apiKey: String
+    private val apiKey: String,
+    private val loggerLevel: HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.NONE
 ) {
 
     fun getInstance(): Retrofit {
 
-        logger.info { "back url $baseUrl" }
+
         val httpClient = OkHttpClient.Builder()
 
         httpClient
@@ -27,7 +26,7 @@ class RetrofitHelper(
                     .build()
                 chain.proceed(request)
             }
-            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .addInterceptor(HttpLoggingInterceptor().setLevel(loggerLevel))
             .build()
 
 

@@ -25,9 +25,9 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '11'
-
+          
       - name: Run tests
-        run: .\mvnw test
+        run: ./mvnw test
 
       - name: Bundle the build report
         if: failure()

@@ -1,41 +1,49 @@
 package co.novu
 
-import co.novu.api.EventTriggerRequest
+
 import co.novu.api.EventsApi
+import co.novu.dto.request.BroadcastEventRequest
+import co.novu.dto.request.TriggerEventRequest
 import co.novu.helpers.RetrofitHelper
 import kotlinx.coroutines.runBlocking
 import mu.KotlinLogging
 
+
 private val logger = KotlinLogging.logger {}
 
 
-data class NovuConfig(var backendUrl: String = "https://api.novu.co/v1/")
+data class NovuConfig(var backendUrl: String = "https://api.novu.co/")
+
 
 class Novu(
     apiKey: String,
     config: NovuConfig = NovuConfig()
 ) {
 
-
     private val eventsApi =
         RetrofitHelper(apiKey = apiKey, baseUrl = config.backendUrl).getInstance().create(EventsApi::class.java)
 
-    fun trigger(name: String, body: EventTriggerRequest) = runBlocking {
 
-        body.name = name
-
-        logger.info { body }
-        eventsApi.eventTrigger(body)
+    fun trigger(body: TriggerEventRequest) = runBlocking {
+        eventsApi.triggerEvent(body)
             .body()
             .apply { logger.info { this } }
     }
 
-    fun triggerBroadcast(body: EventTriggerRequest) = runBlocking {
+    fun broadcast(body: BroadcastEventRequest) = runBlocking {
 
-        logger.info { body }
-        eventsApi.eventTriggerBroadcast(body)
+        eventsApi.broadcastEvent(body)
             .body()
             .apply { logger.info { this } }
     }
+
+    fun cancelTriggerEvent(transactionId: String) = runBlocking {
+
+        eventsApi.cancelTriggerEvent(transactionId)
+            .body()
+            .apply { logger.info { this } }
+    }
+
 
 }
+

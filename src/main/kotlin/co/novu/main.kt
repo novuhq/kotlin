@@ -1,10 +1,7 @@
 package co.novu
 
 
-import co.novu.api.SubscriberDTO
-import co.novu.dto.request.BroadcastEventRequest
 
-import co.novu.dto.request.TriggerEventRequest
 import kotlin.system.exitProcess
 
 

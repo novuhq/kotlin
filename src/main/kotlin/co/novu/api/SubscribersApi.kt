@@ -9,21 +9,17 @@ import retrofit2.http.Path
 
 interface SubscribersApi {
 
-
     @GET("v1/subscribers")
     suspend fun getSubscribers(): Response<Unit>
 
     @POST("v1/subscribers")
     suspend fun createSubscriber(): Response<Unit>
 
-
     @GET("v1/subscribers/{subscriberId}")
     suspend fun getSubscriber(@Path("subscriberId") subscriberId: String): Response<Unit>
 
-
     @PUT("v1/subscribers/{subscriberId}")
     suspend fun updateSubscriber(@Path("subscriberId") subscriberId: String): Response<Unit>
-
 
     @DELETE("v1/subscribers/{subscriberId}")
     suspend fun deleteSubscriber(@Path("subscriberId") subscriberId: String): Response<Unit>
@@ -31,10 +27,8 @@ interface SubscribersApi {
     @PUT("v1/subscribers/{subscriberId}/credentials")
     suspend fun updateSubscriberCredentials(@Path("subscriberId") subscriberId: String): Response<Unit>
 
-
     @GET("v1/subscribers/{subscriberId}/preferences")
     suspend fun getSubscriberPreferences(@Path("subscriberId") subscriberId: String): Response<Unit>
-
 
     @PUT("v1/subscribers/{subscriberId}/preferences/{templateId}")
     suspend fun updateSubscriberPreferences(
@@ -44,7 +38,6 @@ interface SubscribersApi {
 
     @GET("v1/subscribers/{subscriberId}/notifications/feed")
     suspend fun getNotificationsForSubscriber(@Path("subscriberId") subscriberId: String): Response<Unit>
-
 
     @GET("v1/subscribers/{subscriberId}/notifications/unseen")
     suspend fun getUnseenNotificationsForSubscriber(@Path("subscriberId") subscriberId: String): Response<Unit>
@@ -61,6 +54,5 @@ interface SubscribersApi {
         @Path("messageId") messageId: String,
         @Path("type") type: String,
     ): Response<Unit>
-
 
 }

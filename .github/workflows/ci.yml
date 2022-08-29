@@ -14,7 +14,7 @@ on:
 jobs:
   linux:
     runs-on: ubuntu-latest
-    env: 
+    environment: 
         APIKEY: ${{ secrets.APIKEY }}
     steps:
       - name: Checkout the repo

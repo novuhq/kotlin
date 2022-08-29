@@ -33,7 +33,12 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-        
+            
+      - name: Run tests
+        env: 
+          APIKEY: ${{ secrets.APIKEY }}
+        run: echo $APIKEY
+
       - name: Run tests
         env: 
           APIKEY: ${{ secrets.APIKEY }}

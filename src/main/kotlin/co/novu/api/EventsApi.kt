@@ -17,7 +17,7 @@ interface EventsApi {
     suspend fun triggerEvent(@Body body: TriggerEventRequest): Response<ResponseWrapper<TriggerResponse>>
 
     @POST("v1/events/trigger/broadcast")
-    suspend fun broadcastEvent(@Body body: BroadcastEventRequest): Response<TriggerResponse>
+    suspend fun broadcastEvent(@Body body: BroadcastEventRequest): Response<ResponseWrapper<TriggerResponse>>
 
     @DELETE("v1/events/trigger/{transactionId}")
     suspend fun cancelTriggerEvent(@Path("transactionId") transactionId: String): Response<Unit>

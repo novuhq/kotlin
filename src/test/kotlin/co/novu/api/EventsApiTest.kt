@@ -13,12 +13,13 @@ import io.kotest.matchers.string.shouldNotBeBlank
 val APIKEY: String = System.getProperty("APIKEY")
 const val EXISTING_CHANNEL = "fdfsdf"
 const val NON_EXISTING_CHANNEL = "non_existing_channel"
+const val TRANSACTION_ID = "test_transaction_id"
 
 class EventsApiTest : DescribeSpec({
 
     describe("Trigger Event Tests") {
 
-        it("Trigger event to subscriberId") {
+        it("Should trigger an event to subscriberId") {
             Novu(APIKEY).trigger(TriggerEventRequest(name = EXISTING_CHANNEL, to = "subid", payload = mapOf()))
                 .run {
                     this?.data?.acknowledged shouldBe true
@@ -27,7 +28,23 @@ class EventsApiTest : DescribeSpec({
                 }
         }
 
-        it("Trigger event to subscriberId to non existing channel") {
+        it("Should trigger an event to subscriberId with specified transactionId") {
+            Novu(APIKEY).trigger(
+                TriggerEventRequest(
+                    name = EXISTING_CHANNEL,
+                    to = "subid", payload = mapOf(),
+                    transactionId = TRANSACTION_ID
+                )
+            )
+                .run {
+                    this?.data?.acknowledged shouldBe true
+                    this?.data?.status shouldBe "processed"
+                    this?.data?.transactionId.shouldNotBeBlank()
+                    this?.data?.transactionId shouldBe TRANSACTION_ID
+                }
+        }
+
+        it("Should trigger an event to subscriberId to non existing channel") {
             Novu(APIKEY).trigger(TriggerEventRequest(name = NON_EXISTING_CHANNEL, to = "subid", payload = mapOf()))
                 .run {
                     this?.data?.acknowledged shouldBe true
@@ -36,7 +53,7 @@ class EventsApiTest : DescribeSpec({
                 }
         }
 
-        it("Trigger event to list of subscriberId") {
+        it("Should trigger an event to list of subscriberId") {
             Novu(APIKEY).trigger(
                 TriggerEventRequest(name = EXISTING_CHANNEL, to = listOf("sub1", "sub2"), payload = mapOf())
             ).run {
@@ -45,7 +62,7 @@ class EventsApiTest : DescribeSpec({
 
         }
 
-        it("Trigger event to subscriberDTO") {
+        it("Should trigger an event to subscriberDTO") {
             Novu(APIKEY).trigger(
                 TriggerEventRequest(
                     name = EXISTING_CHANNEL,
@@ -53,6 +70,7 @@ class EventsApiTest : DescribeSpec({
                     payload = mapOf()
                 )
             ).run {
+                this?.data?.acknowledged shouldBe true
                 this?.data?.status shouldBe "processed"
             }
         }
@@ -61,15 +79,23 @@ class EventsApiTest : DescribeSpec({
 
     describe("Broadcast Event Tests") {
 
-
-        it("Broadcast event") {
+        it("Should broadcast an event") {
             Novu(APIKEY).broadcast(
                 BroadcastEventRequest(name = EXISTING_CHANNEL, payload = mapOf())
             ).run {
                 this?.data?.status shouldBe "processed"
+                this?.data?.acknowledged shouldBe true
             }
 
 
+        }
+    }
+
+
+    describe("Cancel event trigger test") {
+        it("Should cancel an event trigger") {
+            Novu(APIKEY).cancelTriggerEvent(TRANSACTION_ID)
+                .run {  }
         }
     }
 

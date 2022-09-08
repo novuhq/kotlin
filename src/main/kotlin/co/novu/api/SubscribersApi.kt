@@ -1,19 +1,26 @@
 package co.novu.api
 
+
+import co.novu.dto.request.SubscriberRequest
+import co.novu.dto.response.PaginatedResponseWrapper
+import co.novu.dto.response.SubscriberResponse
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
+import retrofit2.http.Query
+import java.math.BigInteger
 
 interface SubscribersApi {
 
     @GET("v1/subscribers")
-    suspend fun getSubscribers(): Response<Unit>
+    suspend fun getSubscribers(@Query("page") page: BigInteger?): Response<PaginatedResponseWrapper<SubscriberResponse>>
 
     @POST("v1/subscribers")
-    suspend fun createSubscriber(): Response<Unit>
+    suspend fun createSubscriber(@Body subscriberRequest: SubscriberRequest): Response<SubscriberResponse>
 
     @GET("v1/subscribers/{subscriberId}")
     suspend fun getSubscriber(@Path("subscriberId") subscriberId: String): Response<Unit>

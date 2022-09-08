@@ -11,7 +11,7 @@ private val logger = KotlinLogging.logger {}
 class RetrofitHelper(
     private val baseUrl: String,
     private val apiKey: String,
-    private val loggerLevel: HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.NONE
+    private val loggerLevel: HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.BASIC
 ) {
 
     fun getInstance(): Retrofit {

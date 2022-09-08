@@ -3,13 +3,13 @@ package co.novu.dto.request
 abstract class BaseEventRequest {
 
     // Mandatory fields
-    protected lateinit var name: String
-    protected var payload: Map<String, Any> = mapOf()
+    private lateinit var name: String
+    private var payload: Map<String, Any> = mapOf()
 
 
     //Optional fields
-    protected var overrides: Map<String, Any>? = null
-    protected var transactionId: String? = null
+    private var overrides: Map<String, Any>? = null
+    private var transactionId: String? = null
 
     protected fun init(
         _name: String,

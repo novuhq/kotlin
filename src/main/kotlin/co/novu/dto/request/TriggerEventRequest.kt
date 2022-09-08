@@ -41,7 +41,7 @@ class TriggerEventRequest private constructor() : BaseEventRequest() {
         @JvmName("fromListOfSubscribers")
         operator fun invoke(
             name: String,
-            to: List<Subscriber>,
+            to: List<SubscriberRequest>,
             payload: Map<String, Any> = mapOf(),
             overrides: Map<String, Any>? = null,
             transactionId: String? = null
@@ -50,7 +50,7 @@ class TriggerEventRequest private constructor() : BaseEventRequest() {
         @JvmName("fromSubscribers")
         operator fun invoke(
             name: String,
-            to: Subscriber,
+            to: SubscriberRequest,
             payload: Map<String, Any> = mapOf(),
             overrides: Map<String, Any>? = null,
             transactionId: String? = null

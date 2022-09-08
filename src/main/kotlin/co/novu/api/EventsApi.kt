@@ -20,6 +20,6 @@ interface EventsApi {
     suspend fun broadcastEvent(@Body body: BroadcastEventRequest): Response<ResponseWrapper<TriggerResponse>>
 
     @DELETE("v1/events/trigger/{transactionId}")
-    suspend fun cancelTriggerEvent(@Path("transactionId") transactionId: String): Response<Unit>
+    suspend fun cancelTriggerEvent(@Path("transactionId") transactionId: String): Response<ResponseWrapper<Boolean>>
 
 }

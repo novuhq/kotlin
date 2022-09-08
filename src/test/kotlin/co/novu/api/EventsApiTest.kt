@@ -3,23 +3,23 @@ package co.novu.api
 
 import co.novu.Novu
 import co.novu.dto.request.BroadcastEventRequest
-import co.novu.dto.request.Subscriber
+import co.novu.dto.request.SubscriberRequest
 import co.novu.dto.request.TriggerEventRequest
+import co.novu.extensions.broadcast
+import co.novu.extensions.cancelTriggerEvent
+import co.novu.extensions.trigger
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldNotBeBlank
 
-val APIKEY: String = System.getProperty("APIKEY")
-const val EXISTING_CHANNEL = "fdfsdf"
-const val NON_EXISTING_CHANNEL = "non_existing_channel"
-const val TRANSACTION_ID = "test_transaction_id"
 
 class EventsApiTest : DescribeSpec({
 
     describe("Trigger Event Tests") {
 
         it("Should trigger an event to subscriberId") {
+
             Novu(APIKEY).trigger(TriggerEventRequest(name = EXISTING_CHANNEL, to = "subid", payload = mapOf()))
                 .run {
                     this?.data?.acknowledged shouldBe true
@@ -66,7 +66,7 @@ class EventsApiTest : DescribeSpec({
             Novu(APIKEY).trigger(
                 TriggerEventRequest(
                     name = EXISTING_CHANNEL,
-                    to = Subscriber(subscriberId = "id", firstName = "test", lastName = "test"),
+                    to = SubscriberRequest(subscriberId = "id", firstName = "test", lastName = "test"),
                     payload = mapOf()
                 )
             ).run {
@@ -95,7 +95,9 @@ class EventsApiTest : DescribeSpec({
     describe("Cancel event trigger test") {
         it("Should cancel an event trigger") {
             Novu(APIKEY).cancelTriggerEvent(TRANSACTION_ID)
-                .run {  }
+                .run {
+                    this?.data shouldBe false
+                }
         }
     }
 

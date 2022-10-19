@@ -1,7 +1,7 @@
 package co.novu.api
 
 import co.novu.Novu
-import co.novu.dto.Subscriber
+
 import co.novu.dto.request.SubscriberRequest
 import co.novu.dto.response.SubscriberResponse
 import co.novu.extensions.createSubscriber
@@ -18,7 +18,7 @@ class SubscribersApiTest : DescribeSpec({
 
         it("Should get the list of subscribers") {
 
-            Novu(APIKEY).subscribers().run {
+            Novu(TestVariables().APIKEY).subscribers().run {
                 this?.page.shouldBeInstanceOf<BigInteger>()
                 this?.totalCount.shouldBeInstanceOf<BigInteger>()
                 this?.pageSize.shouldBeInstanceOf<BigInteger>()
@@ -31,7 +31,7 @@ class SubscribersApiTest : DescribeSpec({
     describe("Create subscriber") {
         it("Should create a subscriber") {
 
-            Novu(APIKEY).createSubscriber(
+            Novu(TestVariables().APIKEY).createSubscriber(
                 subscriberRequest = SubscriberRequest(
                     subscriberId = UUID.randomUUID().toString(),
                     firstName = "A",

@@ -1,0 +1,55 @@
+name: ci
+
+on:
+  # Trigger the workflow on push or pull request,
+  # but only for the main branch
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    environment: develop
+    env: 
+        APIKEY: ${{ secrets.APIKEY }}
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+      
+      - name: Cache local Maven repository
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+            
+      - name: Run tests
+        run: echo $APIKEY
+
+      - name: Run tests
+        run: ./mvnw -DAPIKEY=$APIKEY test
+
+      - name: Bundle the build report
+        if: failure()
+        run: find . -type d -name 'surefire-reports' | zip -@ -r build-reports.zip
+
+      - name: Upload the build report
+        if: failure()
+        uses: actions/upload-artifact@master
+        with:
+          name: error-report
+          path: build-reports.zip
